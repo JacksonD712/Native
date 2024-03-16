@@ -8,13 +8,14 @@ import {
   TouchableOpacity,
   Modal,
   FlatList,
+  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useTaskContext} from '../context/TaskContext';
 
 const AddTaskScreen: React.FC = () => {
   const navigation = useNavigation();
-  const {addTask, types} = useTaskContext(); // Get types from the context
+  const {addTask, types} = useTaskContext();
 
   const [task, setTask] = useState({
     title: '',
@@ -30,20 +31,17 @@ const AddTaskScreen: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    // Validate input fields
-    if (task.title && task.date && task.type && task.description) {
-      // Add task only if all inputs are filled
-      addTask(task);
-      navigation.navigate('SeeTask' as never); // Navigate back or to any other screen
+    if (!task.title || !task.date || !task.type || !task.description) {
+      Alert.alert('Error', 'Please fill in all the input fields.');
+      return;
     }
+    addTask(task);
+    navigation.navigate('SeeTask' as never);
   };
-
-  const isButtonDisabled =
-    !task.title || !task.date || !task.type || !task.description;
 
   return (
     <ImageBackground
-      source={require('../assets/Untitled.jpeg')}
+      source={require('../assets/add.jpeg')}
       style={styles.background}>
       <View style={styles.overlay}>
         <TextInput
@@ -56,15 +54,15 @@ const AddTaskScreen: React.FC = () => {
           <TextInput
             style={styles.input}
             placeholder="Type"
-            editable={false} // Disable editing directly
+            editable={false}
             value={task.type}
           />
         </TouchableOpacity>
         <TextInput
           style={styles.input}
           placeholder="Date"
-          editable={false} // Disable editing directly
-          value={task.date.toDateString()} // Convert date to string
+          editable={false}
+          value={task.date.toDateString()}
         />
         <TextInput
           style={[styles.input]}
@@ -73,11 +71,9 @@ const AddTaskScreen: React.FC = () => {
           onChangeText={value => handleChange('description', value)}
           value={task.description}
         />
-        <TouchableOpacity onPress={handleSubmit} disabled={isButtonDisabled}>
+        <TouchableOpacity onPress={handleSubmit}>
           <Text style={[styles.addButton]}>Add Task</Text>
         </TouchableOpacity>
-
-        {/* Modal for selecting task type */}
         <Modal
           visible={showModal}
           transparent={true}
@@ -133,7 +129,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    backgroundColor: '#D77260',
+    backgroundColor: '#FFD4D7',
     padding: 10,
     borderRadius: 10,
     marginTop: 10,

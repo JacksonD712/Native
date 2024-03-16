@@ -9,52 +9,33 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useTaskContext} from '../context/TaskContext';
-
-// Define your component
 const SeeTaskScreen = () => {
-  // Hooks for navigation and context
   const navigation = useNavigation();
   const {tasks, types, deleteTask} = useTaskContext();
-
-  // State hooks
   const [selectedType, setSelectedType] = useState('Personal');
   const [showDropdown, setShowDropdown] = useState(false);
   const [filteredTasks, setFilteredTasks] = useState([]);
-
-  // Effect hook to filter tasks based on selected type
   useEffect(() => {
-    setShowDropdown(false); // Reset dropdown visibility when tasks change
+    setShowDropdown(false);
     const filtered = tasks.filter(task => task.type === selectedType);
     setFilteredTasks(filtered);
   }, [tasks, selectedType]);
-
-  // Function to toggle dropdown visibility
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
-
-  // Function to handle selecting a task type from dropdown
   const handleSelectType = (type: string) => {
     setSelectedType(type);
     setShowDropdown(false);
   };
-
-  // Function to handle deleting a task
   const handleDeleteTask = (index: number) => {
     Alert.alert('Delete Task', 'Are you sure you want to delete this task?', [
       {text: 'Cancel', style: 'cancel'},
       {text: 'Delete', onPress: () => deleteTask(index)},
     ]);
   };
-
-  // Function to navigate to the AddTask page for editing
-  const handleEditTask = (task: YourTaskType) => {
-    navigation.navigate('AddTask', {task});
-  };
-
   return (
     <ImageBackground
-      source={require('../assets/Untitled.jpeg')}
+      source={require('../assets/see.jpg')}
       style={styles.background}>
       <View style={styles.overlay}>
         {/* Task container */}
@@ -69,37 +50,27 @@ const SeeTaskScreen = () => {
                 <Text>Type: {task.type}</Text>
                 <Text>Date: {task.date.toDateString()}</Text>
                 <Text>Description: {task.description}</Text>
-                {/* Button to delete task */}
                 <TouchableOpacity
                   style={styles.deleteButton}
                   onPress={() => handleDeleteTask(index)}>
                   <Text style={styles.deleteButtonText}>Delete</Text>
                 </TouchableOpacity>
-                {/* Button to edit task */}
-                <TouchableOpacity
-                  style={styles.editButton}
-                  onPress={() => handleEditTask(task)}>
-                  <Text style={styles.editButtonText}>Edit</Text>
-                </TouchableOpacity>
               </View>
             ))
           )}
         </View>
-
-        {/* Add Task button */}
         <TouchableOpacity
           style={styles.addButton}
-          onPress={() => navigation.navigate('AddTask')}>
+          onPress={() => navigation.navigate('AddTask' as never)}>
           <Text style={styles.addButtonIcon}>+</Text>
         </TouchableOpacity>
-
-        {/* Dropdown */}
         <TouchableOpacity
           onPress={toggleDropdown}
           style={styles.dropdownButton}>
-          <Text style={styles.dropdownButtonText}>{selectedType}</Text>
+          <Text style={styles.dropdownButtonText}>
+            {selectedType} {'\u2193'}
+          </Text>
         </TouchableOpacity>
-        {/* Dropdown options */}
         {showDropdown && (
           <View style={styles.dropdown}>
             {types.map((type, index) => (
@@ -116,7 +87,6 @@ const SeeTaskScreen = () => {
     </ImageBackground>
   );
 };
-
 const styles = StyleSheet.create({
   background: {
     flex: 1,
@@ -143,7 +113,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: '#D77260',
+    backgroundColor: '#FFD0D4',
     borderRadius: 50,
     width: 50,
     height: 50,
@@ -184,7 +154,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   deleteButton: {
-    backgroundColor: 'red',
+    backgroundColor: '#FFD4D7',
     padding: 8,
     borderRadius: 5,
     marginTop: 5,

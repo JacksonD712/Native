@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: 'rgba(0,0,0,0.1)',
     alignItems: 'center',
   },
   text: {
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: '#D77260',
+    backgroundColor: '#FFD4D7',
     borderRadius: 5,
     flexDirection: 'row',
     alignItems: 'center',
